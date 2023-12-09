@@ -1,22 +1,27 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
+import { Link, Tabs,useRouter } from 'expo-router';
 import { Pressable, useColorScheme } from 'react-native';
-
+import { Ionicons } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
+import { useEffect, useState } from 'react';
+import { supabase } from '../../util/supabase';
+import { Session } from '@supabase/supabase-js';
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
 function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
+  name: React.ComponentProps<typeof Ionicons>['name'];
   color: string;
 }) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
+  return <Ionicons size={28} style={{ marginBottom: -3 }} {...props} />;
 }
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-
+  const router = useRouter();
+  
+  
   return (
     <Tabs
       screenOptions={{
@@ -25,10 +30,10 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Search',
+          tabBarIcon: ({ color }) => <TabBarIcon name="search" color={color} />,
           headerRight: () => (
-            <Link href="/modal" asChild>
+            <Link href="/(modal)/modal" asChild>
               <Pressable>
                 {({ pressed }) => (
                   <FontAwesome
@@ -46,8 +51,22 @@ export default function TabLayout() {
       <Tabs.Screen
         name="two"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Check In',
+          tabBarIcon: ({ color }) => <Ionicons name="shield-checkmark-outline" size={24} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: 'Profile',
+          tabBarIcon: ({ color }) => <TabBarIcon name="barbell" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="summary"
+        options={{
+          title: 'Summary',
+          tabBarIcon: ({ color }) => <TabBarIcon name="ios-clipboard-outline" color={color} />,
         }}
       />
     </Tabs>
