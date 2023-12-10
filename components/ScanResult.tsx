@@ -3,6 +3,7 @@ import { View, TouchableOpacity, StyleSheet } from 'react-native';
 
 import Colors from '../constants/Colors';
 import { useThemeColor, Text } from './Themed';
+import { supabase } from '../util/supabase';
 interface YourMemberType {
   address: string;
   first_name: string;
@@ -26,10 +27,30 @@ const ScanResultComponent: React.FC<ScanResultComponentProps> = (props: ScanResu
   const borderColor = getBorderColor(theme);
   const firstLetter = props.member.first_name.charAt(0).toUpperCase();
 
-  const handleCheckIn = () => {
-    // Add your check-in logic here
-    console.log('Checking in...');
-    // You can perform any actions related to check-in, such as updating the server or local state.
+  const handleCheckIn = async () => {
+    try {
+      // Prepare check-in data
+      const checkinData = {
+        member_uuid: props.member.member_uuid, // Assuming member_uuid is the foreign key linking to members table
+        checkin_time: new Date(), // Assuming you want to store the current timestamp
+        location: 'Your Loc', // Update with the actual location data
+        checkin_type: 'Manual', // Update with the type of check-in, e.g., 'Manual' or 'Automatic'
+      };
+
+      // Post data to the 'checkins' table
+      const { data, error } = await supabase.from('checkins').upsert([checkinData]);
+
+      if (error) {
+        console.error('Error posting check-in data:', error);
+        // Handle error accordingly, e.g., show an error message to the user
+      } else {
+        console.log('Check-in successful:', data);
+        // Handle success accordingly, e.g., show a success message to the user
+      }
+    } catch (error) {
+      console.error('Unexpected error during check-in:', error);
+      // Handle unexpected errors accordingly
+    }
   };
   return (
     <View style={styles.scanResultContainer}>
