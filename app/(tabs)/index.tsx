@@ -57,20 +57,8 @@ export default function TabOneScreen() {
 
   const renderItem = ({ item }: { item: YourMemberType }) => {
     return (
-      <Card 
-      address={item.address}
-      allergies={item.allergies}
-      created_at={item.created_at}
-      date_of_birth={item.date_of_birth}
-      email={item.email}
-      emergency_contact_name={item.emergency_contact_name}
-      emergency_contact_phone={item.emergency_contact_phone}
-      first_name={item.first_name}
-      last_name={item.last_name}
-      medical_conditions={item.medical_conditions}
-      phone={item.phone}
-      registration_date={item.registration_date}
-      uuid={item.uuid}
+      <Card
+      member={item}
       onPress={handleCardPress}
     />
     );
