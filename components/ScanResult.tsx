@@ -26,22 +26,35 @@ const ScanResultComponent: React.FC<ScanResultComponentProps> = (props: ScanResu
   const borderColor = getBorderColor(theme);
   const firstLetter = props.member.first_name.charAt(0).toUpperCase();
 
+  const handleCheckIn = () => {
+    // Add your check-in logic here
+    console.log('Checking in...');
+    // You can perform any actions related to check-in, such as updating the server or local state.
+  };
   return (
     <View style={styles.scanResultContainer}>
-          <View style={styles.cardContainer}>
-            <View style={styles.roundImage}>
-              <Text style={styles.letter}>{firstLetter}</Text>
-            </View>
-            <View style={styles.textContainer}>
-              <Text style={styles.textStyle}>{props.member.first_name} {props.member.last_name}</Text>
-              <Text style={styles.textStyle}>{props.member.phone}</Text>
-              <Text style={styles.textStyle}>{props.member.address}</Text>
-            </View>
-          </View>
+      <View style={styles.cardContainer}>
+        <View style={styles.roundImage}>
+          <Text style={styles.letter}>{firstLetter}</Text>
+        </View>
+        <View style={styles.textContainer}>
+          <Text style={styles.textStyle}>{props.member.first_name} {props.member.last_name}</Text>
+          <Text style={styles.textStyle}>{props.member.phone}</Text>
+          <Text style={[styles.textStyle, { color: props.member.subscription_status ? 'green' : 'red', marginTop: 8 }]}>
+            Subscription: {props.member.subscription_status ? 'Active ✅' : '❌ Expired '}
+          </Text>
+          {/* Check-In button */}
+          {props.member.subscription_status && (
+            <TouchableOpacity onPress={() => handleCheckIn()} style={styles.checkInButton}>
+              <Text style={styles.checkInButtonText}>Check In</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+      </View>
 
-        <TouchableOpacity onPress={props.onScanAgain} style={styles.scanAgainButton}>
-          <Text style={styles.scanAgainButtonText}>Scan Again</Text>
-        </TouchableOpacity>
+      <TouchableOpacity onPress={props.onScanAgain} style={styles.scanAgainButton}>
+        <Text style={styles.scanAgainButtonText}>Scan Again</Text>
+      </TouchableOpacity>
 
     </View>
   );
@@ -97,6 +110,18 @@ const styles = StyleSheet.create({
   textStyle: {
     marginTop: 8,
     color: Colors.dark.background,
+  },
+  checkInButton: {
+    backgroundColor: 'green',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  checkInButtonText: {
+    color: 'white',
+    fontSize: 18,
   },
 });
 

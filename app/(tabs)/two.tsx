@@ -27,46 +27,29 @@ const TabTwoScreen: React.FC = () => {
     if (scanning) {
       setScanning(false);
       setResult(data as string);
-      Vibration.vibrate();
       setLoading(true);
       try {
-        // Validate UUID format
-        if (!isValidUUID(data)) {
-          setError('Invalid UUID format');
-          setResult(null);
-          setScanning(true); // Set scanning to true to show the barcode scanner again
-          return;
-        }
+        Vibration.vibrate();
   
         const { data: memberData, error: supabaseError } = await supabase.rpc('get_member_data', { uuid: data });
   
         if (supabaseError) {
-          setError('Error fetching data. Please try again.');
-          console.error(supabaseError); // Log the actual error
+          setError(`Error fetching data: ${supabaseError.message}`);
           setResult(null);
         }
   
         if (memberData && memberData.length > 0) {
           const [firstMember] = memberData;
           setMember(firstMember);
-          console.log(firstMember);
         } else {
-          setError('No data found for the given UUID. Please try again.');
+          setError('No data found for the given QR Code. Please try again.');
         }
       } finally {
         setLoading(false);
       }
     }
   };
-  
-  // UUID validation function
-  const isValidUUID = (uuid: string): boolean => {
-    // Make the regex case-insensitive
-    const uuidRegex = /^[a-f\d]{8}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{12}$/i;
-    const isValid = uuidRegex.test(uuid);
-    console.log('UUID Validation Result:', isValid);
-    return isValid;
-  };
+
 
   const handleScanAgain = () => {
     setScanning(true);
@@ -78,7 +61,10 @@ const TabTwoScreen: React.FC = () => {
   useEffect(() => {
     // Cleanup function
     return () => {
-      setScanning(true); // Reset scanning state when component unmounts
+      setScanning(true);
+      setResult(null);
+      setError(null);
+      setMember(null);
     };
   }, []);
 
@@ -126,6 +112,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: 'red',
+    margin:20
   },
   loadingIndicator: {
     ...StyleSheet.absoluteFillObject,
