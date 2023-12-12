@@ -33,6 +33,7 @@ export default function TabLayout() {
         options={{
           title: 'Search',
           tabBarIcon: ({ color }) => <TabBarIcon name="search" color={color} />,
+          headerShown: false,
           headerRight: () => (
             <Link href="/(modal)/modal" asChild>
               <Pressable>
@@ -53,6 +54,7 @@ export default function TabLayout() {
         name="two"
         options={{
           title: 'Check In',
+          headerShown: false,
           tabBarIcon: ({ color }) => <Ionicons name="shield-checkmark-outline" size={24} color={color} />,
         }}
       />
@@ -60,6 +62,7 @@ export default function TabLayout() {
         name="summary"
         options={{
           title: 'Summary',
+          headerShown: false,
           tabBarIcon: ({ color }) => <TabBarIcon name="ios-clipboard-outline" color={color} />,
         }}
       />
