@@ -24,20 +24,12 @@ export type YourMemberType = {
   uuid: string;
 };
 export default function TabOneScreen() {
-  const [session, setSession] = useState<Session | null>(null)
   const [members, setMembers] = useState<Array<YourMemberType> | null>(null);
   const [errors, setError] = useState<String | null>(null);
   const router = useRouter();
   const rootNavigationState = useRootNavigationState();
 
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
-    })
-    if (!session && !rootNavigationState?.key) {
-      router.push('/login');
-    }
-}, []);
+  
   const handleSearch = async (value: string) => {
     let { data, error } = await supabase.rpc('search_members', {search_term:value})
     if (error) setError('No results found. Please try a different search term.');
@@ -52,7 +44,7 @@ export default function TabOneScreen() {
     }
   };
   const handleCardPress = (member: YourMemberType) => {
-    router.replace(`/(modal)/${member.uuid}`);
+    router.push(`/(modal)/${member.uuid}`);
   };
 
   const renderItem = ({ item }: { item: YourMemberType }) => {

@@ -26,6 +26,7 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        
       }}>
       <Tabs.Screen
         name="index"
@@ -53,13 +54,6 @@ export default function TabLayout() {
         options={{
           title: 'Check In',
           tabBarIcon: ({ color }) => <Ionicons name="shield-checkmark-outline" size={24} color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: 'Profile',
-          tabBarIcon: ({ color }) => <TabBarIcon name="barbell" color={color} />,
         }}
       />
       <Tabs.Screen

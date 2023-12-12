@@ -31,7 +31,7 @@ export const Card: React.FC<CardProps> = (props: CardProps) => {
   const firstLetter = props.member.first_name.charAt(0).toUpperCase();
 
   return (
-    <TouchableOpacity onPress={() => props.onPress(props)}>
+    <TouchableOpacity onPress={() => props.onPress(props.member)}>
       <Link href="/(modal)/modal" asChild>
         <View style={styles.cardContainer}>
           <View style={styles.roundImage}>

@@ -33,7 +33,7 @@ const ScanResultComponent: React.FC<ScanResultComponentProps> = (props: ScanResu
       const checkinData = {
         member_uuid: props.member.member_uuid, // Assuming member_uuid is the foreign key linking to members table
         checkin_time: new Date(), // Assuming you want to store the current timestamp
-        location: 'Your Loc', // Update with the actual location data
+        location: 'Gymn', // Update with the actual location data
         checkin_type: 'Manual', // Update with the type of check-in, e.g., 'Manual' or 'Automatic'
       };
 
