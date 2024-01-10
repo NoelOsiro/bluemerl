@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Platform, ToastAndroid, View, Text } from 'react-native';
 import { supabase } from './supabase';
 import { useLocalSearchParams } from 'expo-router';
+import { ToastContainer, toast } from 'react-toastify';
+
 export interface YourMemberType {
     address: string;
     first_name: string;
@@ -32,8 +34,13 @@ export const useModalScreen = (): ModalScreenHooks => {
     fetchData(uuid);
   }, [uuid]);
 
-  const showToast = (message: string) => {
-    ToastAndroid.show(message, ToastAndroid.SHORT);
+  const showAlert = (title: string, message: string) => {
+    if (Platform.OS === 'android') {
+      Alert.alert(title, message);
+    } else {
+      // For web or other platforms, you can use a different UI component
+      alert(`${title}\n\n${message}`);
+    }
   };
 
   const fetchData = async (uuid: string | string[]) => {
@@ -87,20 +94,21 @@ export const useModalScreen = (): ModalScreenHooks => {
 
   const handleCheckinSuccess = (message: string) => {
     if (Platform.OS === 'android') {
-      showToast(`Success ${message}`);
+      showAlert('Success', `Success: ${message}`);
     } else {
-      Alert.alert('Success', message);
+      showAlert('Success', message);
     }
   };
 
   const handleCheckinError = (errorMessage: string) => {
     if (Platform.OS === 'android') {
-      showToast(`Error, ${errorMessage}`);
+      showAlert('Error', `Error: ${errorMessage}`);
     } else {
-      Alert.alert('Error', errorMessage);
+      // For web or other platforms, you can use a different UI component
+      alert(`Error: ${errorMessage}`);
     }
   };
-
+  
   const renderContent = () => {
     if (error) {
       return (
